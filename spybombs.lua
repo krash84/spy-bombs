@@ -49,43 +49,8 @@ local coreSpyUDId = UnitDefNames["corspy"].id
 local targets = {}
 local spyTimeToBlast = {}
 
-local function print_array(A, title)
-	local s = "";
-	if title ~= nil then
-		s = s .. title .. ": ";
-	end;
-	s = s .. "[";
 
-	for k, v in pairs(A) do
-		s = s .. tonumber(v - 1)
-		if (k ~= #A) then
-			s = s .. ", ";
-		end;
-	end;
-	s = s .. "]";
-	print(s);
-	Spring.Echo(s)
-end
-local function print_matrix(m, title)
-	if title ~= nil then echo(title) end
-	for j = 1, #m do
-		echo (j.."  "..table.concat(m[j], ", "))
-	end
-	echo('')
-end
-local function print_freemexes()
-	echo("Free mexes: ")
-	for i, mexpos in ipairs(free_mexes) do
-		echo("mex "..i.." - "..mexpos[1]..", "..mexpos[2])
-	end
-	echo('')
-end
-local function print_map(m, title)
-	for k, v in pairs(m) do
-		echo (title.."["..k.."]".." = "..v)
-	end
-end
-
+--[[
 function widget:DrawWorldPreUnit()
 	glLineWidth(3.0)
 	glDepthTest(true)
@@ -96,20 +61,10 @@ function widget:DrawWorldPreUnit()
 		gl.DrawGroundCircle(posx, posy, posz, v, 25)
 	end
 
---	glColor(0, 1, 0, .3)
---	for i, pos in ipairs(local_mexes) do
---		glDrawGroundCircle(pos[1], 20, pos[2], 50, 16)
---	end
---
---	glColor(0, 0, 1, .3)
---	for i, pos in ipairs(free_mexes) do
---		glDrawGroundCircle(pos[1], 20, pos[2], 50, 16)
---	end
-
 	glDepthTest(false)
 end
-
-
+--]]
+--[[
 function widget:DrawScreenEffects()
 	
     for id, v in pairs(units) do
@@ -119,6 +74,7 @@ function widget:DrawScreenEffects()
         gl.Text("ID:"..v..": ".." -- "..time,x,y,16,"od")
     end
 end
+--]]
 
 local function dispatchUnit(unitID, unitDefID)
 	--local ud = UnitDefs[unitDefID]
@@ -128,13 +84,7 @@ local function dispatchUnit(unitID, unitDefID)
 		local selfdBlastRadius = WeaponDefs[selfdBlastId]["damageAreaOfEffect"]
 		units[unitID] = selfdBlastRadius
 		spyTimeToBlast[unitID] = 0
-		echo ("spy detected "..selfdBlastRadius)
-	end
-end
-
-function widget:UnitCreated(unitID, unitDefID, unitTeam)
-	if (unitTeam ~= spGetMyTeamID()) then
-		return
+		--echo ("spy detected "..selfdBlastRadius)
 	end
 end
 
@@ -163,12 +113,6 @@ function widget:Update(dt)
 		
 	end
 
-end
-
-function widget:GameFrame(frameNum)
-	if (frameNum % 2 ) == 0 then
-		
-	end
 end
 
 function widget:UnitFinished(unitID, unitDefID, unitTeam)
